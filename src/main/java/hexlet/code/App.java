@@ -10,21 +10,27 @@ import java.nio.file.Files;
 import java.security.MessageDigest;
 import java.util.concurrent.Callable;
 
-@Command(name = "checksum", mixinStandardHelpOptions = true, version = "checksum 4.0",
-         description = "Prints the checksum (MD5 by default) of a file to STDOUT.")
+@Command(name = "gendiff", mixinStandardHelpOptions = true, version = "gendiff 1.0",
+         description = "Compares two configuration files and shows a difference.")
 class App implements Callable<Integer> {
 
-    @Parameters(index = "0", description = "The file whose checksum to calculate.")
-    private File file;
+    @Parameters(index = "0", description = "path to first file")
+    private File filepath1;
 
-    @Option(names = {"-a", "--algorithm"}, description = "MD5, SHA-1, SHA-256, ...")
-    private String algorithm = "MD5";
+    @Parameters(index = "1", description = "path to second file")
+    private File filepath2;
+
+    @Option(names = {"-f", "--format"}, description = "output format [default: stylish]")
+    private String format = "format";
 
     @Override
     public Integer call() throws Exception { // your business logic goes here...
-        byte[] fileContents = Files.readAllBytes(file.toPath());
-        byte[] digest = MessageDigest.getInstance(algorithm).digest(fileContents);
-        System.out.printf("%0" + (digest.length*2) + "x%n", new BigInteger(1, digest));
+        byte[] fileContents1 = Files.readAllBytes(filepath1.toPath());
+        byte[] fileContents2 = Files.readAllBytes(filepath2.toPath());
+        byte[] digest1 = MessageDigest.getInstance(format).digest(fileContents1);
+        byte[] digest2 = MessageDigest.getInstance(format).digest(fileContents2);
+        System.out.printf("%0" + (digest1.length*2) + "x%n", new BigInteger(1, digest1));
+        System.out.printf("%0" + (digest2.length*2) + "x%n", new BigInteger(1, digest2));
         return 0;
     }
 
