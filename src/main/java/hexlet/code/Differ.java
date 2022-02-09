@@ -35,9 +35,7 @@ public class Differ {
 
         data1Sorted.forEach((key, value) -> {
             if (data2.containsKey(key) && data2.get(key).equals(value)) {
-                if (data2.get(key).equals(value)) {
-                    result.append("  " + key + ": " + value + "\n");
-                }
+                result.append("  " + key + ": " + value + "\n");
             } else if (data2.containsKey(key) && !data2.get(key).equals(value)) {
                 result.append("- " + key + ": " + value + "\n");
                 result.append("+ " + key + ": " + data2.get(key) + "\n");
