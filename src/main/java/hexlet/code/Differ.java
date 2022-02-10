@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
@@ -11,8 +12,8 @@ import java.util.stream.Collectors;
 public class Differ {
     public static String generate(File file1, File file2) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        Map<String, Object> data1 = mapper.readValue(file1, Map.class);
-        Map<String, Object> data2 = mapper.readValue(file2, Map.class);
+        Map<String, Object> data1 = mapper.readValue(file1, new TypeReference<>() { });
+        Map<String, Object> data2 = mapper.readValue(file2, new TypeReference<>() { });
         StringBuilder result = new StringBuilder("{\n");
 
         data2.forEach((key, value) -> {
