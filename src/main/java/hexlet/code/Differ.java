@@ -13,7 +13,7 @@ public class Differ {
         ObjectMapper mapper = new ObjectMapper();
         Map<String, Object> data1 = mapper.readValue(file1, Map.class);
         Map<String, Object> data2 = mapper.readValue(file2, Map.class);
-        StringBuilder result = new StringBuilder();
+        StringBuilder result = new StringBuilder("{\n");
 
         data2.forEach((key, value) -> {
             if (!data1.containsKey(key)) {
@@ -31,13 +31,9 @@ public class Differ {
 
         data1.clear();
 
-        result.append("{\n");
-
         data1Sorted.forEach((key, value) -> {
             if (data2.containsKey(key) && data2.get(key).equals(value)) {
-                if (data2.get(key).equals(value)) {
-                    result.append("  " + key + ": " + value + "\n");
-                }
+                result.append("  " + key + ": " + value + "\n");
             } else if (data2.containsKey(key) && !data2.get(key).equals(value)) {
                 result.append("- " + key + ": " + value + "\n");
                 result.append("+ " + key + ": " + data2.get(key) + "\n");
@@ -47,7 +43,6 @@ public class Differ {
                 result.append("- " + key + ": " + value + "\n");
             }
         });
-
         result.append("}");
 
         return result.toString();
