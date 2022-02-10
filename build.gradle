@@ -6,8 +6,9 @@
  */
 
 plugins {
-  id 'com.github.ben-manes.versions' version '0.39.0'
-  id 'application'
+    id 'com.github.ben-manes.versions' version '0.39.0'
+    id 'application'
+    id 'checkstyle'
 }
 
 dependencies {
@@ -16,6 +17,7 @@ dependencies {
     implementation 'com.fasterxml.jackson.core:jackson-core:2.13.1'
     implementation 'com.fasterxml.jackson.core:jackson-annotations:2.13.1'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
 }
 
 group = 'hexlet.code'
@@ -26,10 +28,14 @@ application {
 }
 
 compileJava {
-  options.release = 16
-  options.compilerArgs += ["-Aproject=${project.group}/${project.name}"]
+    options.release = 16
+    options.compilerArgs += ["-Aproject=${project.group}/${project.name}"]
 }
 
 repositories {
     mavenCentral()
+}
+
+test {
+    useJUnitPlatform()
 }
