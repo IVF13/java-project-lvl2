@@ -33,14 +33,14 @@ public class Differ {
 
         data1Sorted.forEach((key, value) -> {
             if (data2.containsKey(key) && data2.get(key).equals(value)) {
-                result.append("  " + key + ": " + value + "\n");
+                result.append("    " + key + ": " + value + "\n");
             } else if (data2.containsKey(key) && !data2.get(key).equals(value)) {
-                result.append("- " + key + ": " + value + "\n");
-                result.append("+ " + key + ": " + data2.get(key) + "\n");
+                result.append("  - " + key + ": " + value + "\n");
+                result.append("  + " + key + ": " + data2.get(key) + "\n");
             } else if (key.endsWith(":")) {
-                result.append("+ " + key + " " + value + "\n");
+                result.append("  + " + key + " " + value + "\n");
             } else {
-                result.append("- " + key + ": " + value + "\n");
+                result.append("  - " + key + ": " + value + "\n");
             }
         });
         result.append("}");
