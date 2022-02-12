@@ -24,7 +24,7 @@ class App implements Callable<Integer> {
 
     @Override
     public Integer call() throws Exception {
-        System.out.println(Differ.generate(file1, file2));
+        System.out.println(Differ.generate(format, file1, file2));
         return 0;
     }
 
@@ -34,4 +34,4 @@ class App implements Callable<Integer> {
     }
 }
 // ./build/install/app/bin/app E:\java-project-lvl2\file1.json E:\java-project-lvl2\file2.json
-
+// ./build/install/app/bin/app -f JSON src/test/resources/file1.json src/test/resources/file2.json
