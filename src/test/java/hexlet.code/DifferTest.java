@@ -7,8 +7,10 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 
 public class DifferTest {
-    private File file1 = new File("src/test/resources/file1.json");
-    private File file2 = new File("src/test/resources/file2.json");
+    private File file1JSON = new File("src/test/resources/file1.json");
+    private File file2JSON = new File("src/test/resources/file2.json");
+    private File file1YAML = new File("src/test/resources/file1.yml");
+    private File file2YAML = new File("src/test/resources/file2.yml");
     private String expected = "{\n"
             +
             "  - follow: false\n"
@@ -26,18 +28,40 @@ public class DifferTest {
             "}";
 
     @Test
-    void testDifferRelativePath() throws Exception {
-        assertEquals(expected, Differ.generate(file1, file2));
+    void testDifferRelativePathJSON() throws Exception {
+        assertEquals(expected, Differ.generate("JSON", file1JSON, file2JSON));
     }
 
 
     @Test
-    void testDifferAbsolutePath() throws Exception {
-        File file1WthAbsoltuePath = new File(file1.getAbsolutePath());
-        File file2WthAbsolutePath = new File(file2.getAbsolutePath());
-        assertEquals(expected, Differ.generate(file1WthAbsoltuePath, file2WthAbsolutePath));
+    void testDifferAbsolutePathJSON() throws Exception {
+        File file1WthAbsolutePath = new File(file1JSON.getAbsolutePath());
+        File file2WthAbsolutePath = new File(file2JSON.getAbsolutePath());
+        assertEquals(expected, Differ.generate("JSON", file1WthAbsolutePath, file2WthAbsolutePath));
     }
 
+    @Test
+    void testDifferRelativePathYAML() throws Exception {
+        assertEquals(expected, Differ.generate("YAML", file1JSON, file2JSON));
+    }
 
+    @Test
+    void testDifferAbsolutePathYAML() throws Exception {
+        File file1WthAbsolutePath = new File(file1YAML.getAbsolutePath());
+        File file2WthAbsolutePath = new File(file2YAML.getAbsolutePath());
+        assertEquals(expected, Differ.generate("YAML", file1WthAbsolutePath, file2WthAbsolutePath));
+    }
+
+    @Test
+    void testIncorrectFormat() throws Exception {
+        String incorrect = "format is incorrect\n supported formats:\n - JSON\n - YAML";
+        assertEquals(incorrect, Differ.generate("HTML", file1JSON, file2JSON));
+    }
+
+    @Test
+    void testSameFiles() throws Exception {
+        String identical = "You are trying to compare identical files.";
+        assertEquals(identical, Differ.generate("JSON", file1JSON, file1JSON));
+    }
 }
 
