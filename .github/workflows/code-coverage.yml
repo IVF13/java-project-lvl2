@@ -1,4 +1,4 @@
-name: Test & publish code coverage
+name: Test & publish code coverage workflow
 
 on:
   - push
