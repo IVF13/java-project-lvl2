@@ -10,18 +10,17 @@ import java.util.Map;
 
 public class Parser {
 
-    public static Map<String, Object> toParse(String format, File file) throws IOException {
-        switch (format) {
-            case ("JSON"):
-                ObjectMapper mapperJSON = new ObjectMapper();
-                return mapperJSON.readValue(file, new TypeReference<>() {
-                });
-            case ("YAML"):
-                ObjectMapper mapperYAML = new ObjectMapper(new YAMLFactory());
-                return mapperYAML.readValue(file, new TypeReference<>() {
-                });
-            default:
-                return null;
+    public static Map<String, Object> toParse(File file) throws IOException {
+        if (file.toString().endsWith("json")) {
+            ObjectMapper mapperJSON = new ObjectMapper();
+            return mapperJSON.readValue(file, new TypeReference<>() {
+            });
+        } else if (file.toString().endsWith("yml")) {
+            ObjectMapper mapperYAML = new ObjectMapper(new YAMLFactory());
+            return mapperYAML.readValue(file, new TypeReference<>() {
+            });
+        } else {
+            return null;
         }
     }
 }
