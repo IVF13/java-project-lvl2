@@ -19,8 +19,8 @@ class App implements Callable<Integer> {
     @Parameters(index = "1", description = "path to second file")
     private File file2;
 
-    @Option(names = {"-f", "--format"}, description = "output format [default: stylish]")
-    private String format = "format";
+    @Option(names = {"-f", "--format"}, description = "The count (default: ${stylish})")
+    private String format = "stylish";
 
     @Override
     public Integer call() throws Exception {
@@ -33,5 +33,5 @@ class App implements Callable<Integer> {
         //System.exit(exitCode);
     }
 }
-// ./build/install/app/bin/app E:\java-project-lvl2\file1.json E:\java-project-lvl2\file2.json
-// ./build/install/app/bin/app -f JSON src/test/resources/file1.json src/test/resources/file2.json
+
+// ./build/install/app/bin/app -f stylish src/test/resources/file1.json src/test/resources/file2.json
