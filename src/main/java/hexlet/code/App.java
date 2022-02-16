@@ -35,3 +35,4 @@ class App implements Callable<Integer> {
 }
 
 // ./build/install/app/bin/app -f stylish src/test/resources/file1.json src/test/resources/file2.json
+// ./build/install/app/bin/app -f plain src/test/resources/file1.json src/test/resources/file2.json
