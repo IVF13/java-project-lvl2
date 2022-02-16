@@ -12,7 +12,7 @@ public class Differ {
         Map<String, Object> data1 = Parser.toParse(file1);
         Map<String, Object> data2 = Parser.toParse(file2);
 
-        if (data1 != null && data2 != null) {
+        if (!isCollectionMapNullOrEmpty(data1) && !isCollectionMapNullOrEmpty(data2)) {
             AtomicBoolean identicalChecker = new AtomicBoolean(false);
 
             data2.forEach((key, value) -> {
@@ -48,7 +48,13 @@ public class Differ {
             return Formatter.toChooseFormat(format, data1Sorted, data2);
 
         }
-        return "";
+
+        return "One of the files, or both of them, are empty";
     }
+
+    protected static boolean isCollectionMapNullOrEmpty(final Map<?, ?> m) {
+        return m == null || m.isEmpty();
+    }
+
 }
 
