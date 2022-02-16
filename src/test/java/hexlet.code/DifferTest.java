@@ -73,69 +73,69 @@ public class DifferTest {
 
     @Test
     void testStylishDifferRelativePathJSON() throws Exception {
-        assertEquals(expectedStylish, Differ.generate("stylish", file1JSON, file2JSON));
+        assertEquals(expectedStylish, Differ.generate(file1JSON, file2JSON, "stylish"));
     }
 
     @Test
     void testStylishDifferAbsolutePathJSON() throws Exception {
-        assertEquals(expectedStylish, Differ.generate("stylish", file1WthAbsolutePathJSON, file2WthAbsolutePathJSON));
+        assertEquals(expectedStylish, Differ.generate(file1WthAbsolutePathJSON, file2WthAbsolutePathJSON, "stylish"));
     }
 
     @Test
     void testStylishDifferRelativePathYAML() throws Exception {
-        assertEquals(expectedStylish, Differ.generate("stylish", file1YAML, file2YAML));
+        assertEquals(expectedStylish, Differ.generate(file1YAML, file2YAML, "stylish"));
     }
 
     @Test
     void testStylishDifferAbsolutePathYAML() throws Exception {
-        assertEquals(expectedStylish, Differ.generate("stylish", file1WthAbsolutePathYAML, file2WthAbsolutePathYAML));
+        assertEquals(expectedStylish, Differ.generate(file1WthAbsolutePathYAML, file2WthAbsolutePathYAML, "stylish"));
     }
 
     @Test
     void testStylishDifferRelativePathJSONNYAML() throws Exception {
-        assertEquals(expectedStylish, Differ.generate("stylish", file1JSON, file2YAML));
+        assertEquals(expectedStylish, Differ.generate(file1JSON, file2YAML, "stylish"));
     }
 
     @Test
     void testStylishDifferAbsolutePathJSONNYAML() throws Exception {
-        assertEquals(expectedStylish, Differ.generate("stylish", file1WthAbsolutePathJSON, file2WthAbsolutePathYAML));
+        assertEquals(expectedStylish, Differ.generate(file1WthAbsolutePathJSON, file2WthAbsolutePathYAML, "stylish"));
     }
 
     @Test
     void testPlainDifferRelativePathJSON() throws Exception {
-        assertEquals(expectedPlain, Differ.generate("plain", file1JSON, file2JSON));
+        assertEquals(expectedPlain, Differ.generate(file1JSON, file2JSON, "plain"));
     }
 
     @Test
     void testPlainDifferAbsolutePathJSON() throws Exception {
-        assertEquals(expectedPlain, Differ.generate("plain", file1WthAbsolutePathJSON, file2WthAbsolutePathJSON));
+        assertEquals(expectedPlain, Differ.generate(file1WthAbsolutePathJSON, file2WthAbsolutePathJSON, "plain"));
     }
 
     @Test
     void testPlainDifferRelativePathYAML() throws Exception {
-        assertEquals(expectedPlain, Differ.generate("plain", file1YAML, file2YAML));
+        assertEquals(expectedPlain, Differ.generate(file1YAML, file2YAML, "plain"));
     }
 
     @Test
     void testPlainDifferAbsolutePathYAML() throws Exception {
-        assertEquals(expectedPlain, Differ.generate("plain", file1WthAbsolutePathYAML, file2WthAbsolutePathYAML));
+        assertEquals(expectedPlain, Differ.generate(file1WthAbsolutePathYAML, file2WthAbsolutePathYAML, "plain"));
     }
 
     @Test
     void testPlainDifferRelativePathJSONNYAML() throws Exception {
-        assertEquals(expectedPlain, Differ.generate("plain", file1JSON, file2YAML));
+        assertEquals(expectedPlain, Differ.generate(file1JSON, file2YAML, "plain"));
     }
 
     @Test
     void testPlainDifferAbsolutePathJSONNYAML() throws Exception {
-        assertEquals(expectedPlain, Differ.generate("plain", file1WthAbsolutePathJSON, file2WthAbsolutePathYAML));
+        assertEquals(expectedPlain, Differ.generate(file1WthAbsolutePathJSON, file2WthAbsolutePathYAML, "plain"));
     }
 
     @Test
     void testJsonDifferRelativePathJSON() throws Exception {
         File result = new File("result.json");
         ObjectMapper objectMapper = new ObjectMapper();
-        assertEquals("File was successfully generated.", Differ.generate("json", file1JSON, file2JSON));
+        assertEquals("File was successfully generated.", Differ.generate(file1JSON, file2JSON, "json"));
         String actual = objectMapper.readValue(result, new TypeReference<>() {
         }).toString();
         assertEquals(expectedJson, actual);
@@ -146,7 +146,7 @@ public class DifferTest {
         File result = new File("result.json");
         ObjectMapper objectMapper = new ObjectMapper();
         String expectedString = "File was successfully generated.";
-        assertEquals(expectedString, Differ.generate("json", file1WthAbsolutePathJSON, file2WthAbsolutePathJSON));
+        assertEquals(expectedString, Differ.generate(file1WthAbsolutePathJSON, file2WthAbsolutePathJSON, "json"));
         String actual = objectMapper.readValue(result, new TypeReference<>() {
         }).toString();
         assertEquals(expectedJson, actual);
@@ -156,20 +156,20 @@ public class DifferTest {
     @Test
     void testIncorrectFormat() throws Exception {
         String incorrect = "format is incorrect\n supported formats:\n - stylish\n - plain";
-        assertEquals(incorrect, Differ.generate("HTML", file1JSON, file2JSON));
+        assertEquals(incorrect, Differ.generate(file1JSON, file2JSON, "HTML"));
     }
 
     @Test
     void testSameFiles() throws Exception {
         String identical = "You are trying to compare identical files.";
-        assertEquals(identical, Differ.generate("stylish", file1JSON, file1JSON));
-        assertEquals(identical, Differ.generate("plain", file1JSON, file1JSON));
+        assertEquals(identical, Differ.generate(file1JSON, file1JSON, "stylish"));
+        assertEquals(identical, Differ.generate(file1JSON, file1JSON, "plain"));
     }
 
     @Test
     void testDifferEmptyFile() throws Exception {
         File emptyFile = new File("src/test/resources/emptyfile1.json");
-        assertEquals("One of the files, or both of them, are empty", Differ.generate("stylish", emptyFile, file2JSON));
+        assertEquals("One of the files, or both of them, are empty", Differ.generate(emptyFile, file2JSON, "stylish"));
     }
 
 }

@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 
 public class Differ {
-    public static String generate(String format, File file1, File file2) throws Exception {
+    public static String generate(File file1, File file2, String format) throws Exception {
         Map<String, Object> data1 = Parser.toParse(file1);
         Map<String, Object> data2 = Parser.toParse(file2);
 
