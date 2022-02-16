@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.Map;
 
 public class Parser {
-
     public static Map<String, Object> toParse(File file) throws IOException {
         if (file.toString().endsWith("json")) {
             ObjectMapper mapperJSON = new ObjectMapper();
