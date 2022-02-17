@@ -1,5 +1,6 @@
 package hexlet.code.formatters;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
@@ -27,6 +28,8 @@ public class JsonFormatter {
         objectMapper.writeValue(new File("result.json"), finalData);
 
         System.out.println("File was successfully generated.");
-        return "";
+
+        return objectMapper.readValue(new File("result.json"), new TypeReference<>() {
+        }).toString();
     }
 }

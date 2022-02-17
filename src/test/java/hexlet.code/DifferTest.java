@@ -1,9 +1,6 @@
 package hexlet.code;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -133,22 +130,12 @@ public class DifferTest {
 
     @Test
     void testJsonDifferRelativePathJSON() throws Exception {
-        File result = new File("result.json");
-        ObjectMapper objectMapper = new ObjectMapper();
-        assertEquals("", Differ.generate(file1JSON, file2JSON, "json"));
-        String actual = objectMapper.readValue(result, new TypeReference<>() {
-        }).toString();
-        assertEquals(expectedJson, actual);
+        assertEquals(expectedJson, Differ.generate(file1JSON, file2JSON, "json"));
     }
 
     @Test
     void testJsonDifferAbsolutePathJSON() throws Exception {
-        File result = new File("result.json");
-        ObjectMapper objectMapper = new ObjectMapper();
-        assertEquals("", Differ.generate(file1WthAbsolutePathJSON, file2WthAbsolutePathJSON, "json"));
-        String actual = objectMapper.readValue(result, new TypeReference<>() {
-        }).toString();
-        assertEquals(expectedJson, actual);
+        assertEquals(expectedJson, Differ.generate(file1WthAbsolutePathJSON, file2WthAbsolutePathJSON, "json"));
     }
 
 
