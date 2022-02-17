@@ -9,14 +9,14 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 
 public class DifferTest {
-    private File file1JSON = new File("src/test/resources/file1.json");
-    private File file2JSON = new File("src/test/resources/file2.json");
-    private File file1YAML = new File("src/test/resources/file1.yml");
-    private File file2YAML = new File("src/test/resources/file2.yml");
-    private File file1WthAbsolutePathJSON = new File(file1JSON.getAbsolutePath());
-    private File file2WthAbsolutePathJSON = new File(file2JSON.getAbsolutePath());
-    private File file1WthAbsolutePathYAML = new File(file1YAML.getAbsolutePath());
-    private File file2WthAbsolutePathYAML = new File(file2YAML.getAbsolutePath());
+    private String file1JSON = "src/test/resources/file1.json";
+    private String file2JSON = "src/test/resources/file2.json";
+    private String file1YAML = "src/test/resources/file1.yml";
+    private String file2YAML = "src/test/resources/file2.yml";
+    private String file1WthAbsolutePathJSON = new File(file1JSON).getAbsolutePath();
+    private String file2WthAbsolutePathJSON = new File(file2JSON).getAbsolutePath();
+    private String file1WthAbsolutePathYAML = new File(file1YAML).getAbsolutePath();
+    private String file2WthAbsolutePathYAML = new File(file2YAML).getAbsolutePath();
 
     private String expectedStylish = "{\n"
             + "    chars1: [a, b, c]\n"
@@ -168,7 +168,7 @@ public class DifferTest {
 
     @Test
     void testDifferEmptyFile() throws Exception {
-        File emptyFile = new File("src/test/resources/emptyfile1.json");
+        String emptyFile = "src/test/resources/emptyfile1.json";
         assertEquals("One of the files, or both of them, are empty", Differ.generate(emptyFile, file2JSON, "stylish"));
     }
 
