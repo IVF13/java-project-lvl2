@@ -58,5 +58,9 @@ public class Differ {
         return m == null || m.isEmpty();
     }
 
+    public static String generate() throws Exception {
+        return generate("", "", "stylish");
+    }
+
 }
 
