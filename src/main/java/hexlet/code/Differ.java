@@ -58,8 +58,8 @@ public class Differ {
         return m == null || m.isEmpty();
     }
 
-    public static String generate() throws Exception {
-        return generate("", "", "stylish");
+    public static String generate(String filepath1, String filepath2) throws Exception {
+        return generate(filepath1, filepath2, "stylish");
     }
 
 }
