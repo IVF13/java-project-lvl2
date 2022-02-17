@@ -135,7 +135,7 @@ public class DifferTest {
     void testJsonDifferRelativePathJSON() throws Exception {
         File result = new File("result.json");
         ObjectMapper objectMapper = new ObjectMapper();
-        assertEquals("File was successfully generated.", Differ.generate(file1JSON, file2JSON, "json"));
+        assertEquals("", Differ.generate(file1JSON, file2JSON, "json"));
         String actual = objectMapper.readValue(result, new TypeReference<>() {
         }).toString();
         assertEquals(expectedJson, actual);
@@ -145,8 +145,7 @@ public class DifferTest {
     void testJsonDifferAbsolutePathJSON() throws Exception {
         File result = new File("result.json");
         ObjectMapper objectMapper = new ObjectMapper();
-        String expectedString = "File was successfully generated.";
-        assertEquals(expectedString, Differ.generate(file1WthAbsolutePathJSON, file2WthAbsolutePathJSON, "json"));
+        assertEquals("", Differ.generate(file1WthAbsolutePathJSON, file2WthAbsolutePathJSON, "json"));
         String actual = objectMapper.readValue(result, new TypeReference<>() {
         }).toString();
         assertEquals(expectedJson, actual);

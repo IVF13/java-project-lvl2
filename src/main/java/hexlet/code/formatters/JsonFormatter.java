@@ -26,6 +26,7 @@ public class JsonFormatter {
         });
         objectMapper.writeValue(new File("result.json"), finalData);
 
-        return "File was successfully generated.";
+        System.out.println("File was successfully generated.");
+        return "";
     }
 }
