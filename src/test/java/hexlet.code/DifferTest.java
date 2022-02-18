@@ -13,7 +13,7 @@ public class DifferTest {
     private String file2JSON = "src/test/resources/file2.json";
     private String file1YAML = "src/test/resources/file1.yml";
     private String file2YAML = "src/test/resources/file2.yml";
-    private String fileResultJson = "src/test/resources/result.json";
+    private String fileResultJson = "src/test/resources/resultFile.json";
     private String file1WthAbsolutePathJSON = new File(file1JSON).getAbsolutePath();
     private String file2WthAbsolutePathJSON = new File(file2JSON).getAbsolutePath();
     private String file1WthAbsolutePathYAML = new File(file1YAML).getAbsolutePath();
