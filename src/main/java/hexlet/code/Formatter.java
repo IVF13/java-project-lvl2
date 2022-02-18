@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.Map;
 
 public class Formatter {
-    public static String toChooseFormat(String format, Map<String, Object> data1, Map<String, Object> data2)
+    public static Object toChooseFormat(String format, Map<String, Object> data1, Map<String, Object> data2)
             throws IOException {
         switch (format) {
             case ("stylish"):
