@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 
 
 public class Differ {
-    public static String generate(String filePath1, String filePath2, String format) throws Exception {
+    public static Object generate(String filePath1, String filePath2, String format) throws Exception {
         File file1 = new File(filePath1);
         File file2 = new File(filePath2);
         Map<String, Object> data1 = Parser.toParse(file1);
@@ -58,7 +58,7 @@ public class Differ {
         return m == null || m.isEmpty();
     }
 
-    public static String generate(String filepath1, String filepath2) throws Exception {
+    public static Object generate(String filepath1, String filepath2) throws Exception {
         return generate(filepath1, filepath2, "stylish");
     }
 
