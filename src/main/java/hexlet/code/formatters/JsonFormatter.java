@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class JsonFormatter {
-    public static String jsonFormat(Map<String, Object> data1, Map<String, Object> data2) throws IOException {
+    public static Object jsonFormat(Map<String, Object> data1, Map<String, Object> data2) throws IOException {
         Map<String, Object> finalData = new LinkedHashMap<>();
         ObjectMapper objectMapper = new ObjectMapper();
         data1.forEach((key, value) -> {
@@ -30,6 +30,6 @@ public class JsonFormatter {
         System.out.println("File was successfully generated.");
 
         return objectMapper.readValue(new File("result.json"), new TypeReference<>() {
-        }).toString();
+        });
     }
 }
