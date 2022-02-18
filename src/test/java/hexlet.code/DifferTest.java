@@ -1,6 +1,9 @@
 package hexlet.code;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -10,10 +13,12 @@ public class DifferTest {
     private String file2JSON = "src/test/resources/file2.json";
     private String file1YAML = "src/test/resources/file1.yml";
     private String file2YAML = "src/test/resources/file2.yml";
+    private String fileResultJson = "src/test/resources/result.json";
     private String file1WthAbsolutePathJSON = new File(file1JSON).getAbsolutePath();
     private String file2WthAbsolutePathJSON = new File(file2JSON).getAbsolutePath();
     private String file1WthAbsolutePathYAML = new File(file1YAML).getAbsolutePath();
     private String file2WthAbsolutePathYAML = new File(file2YAML).getAbsolutePath();
+    private String fileResultJsonWthAbsolutePath = new File(fileResultJson).getAbsolutePath();
 
     private String expectedStylish = "{\n"
             + "    chars1: [a, b, c]\n"
@@ -55,18 +60,6 @@ public class DifferTest {
             + "Property 'setting2' was updated. From 200 to 300\n"
             + "Property 'setting3' was updated. From true to 'none'";
 
-    private String expectedJson = "{chars1=not changed: [a, b, c],"
-            + " chars2=was changed from: [d, e, f] to: false,"
-            + " checked=was changed from: false to: true,"
-            + " default=was changed from: null to: [value1, value2],"
-            + " id=was changed from: 45 to: null, key1=was removed: value1,"
-            + " key2=was added: value2, numbers1=not changed: [1, 2, 3, 4],"
-            + " numbers2=was changed from: [2, 3, 4, 5] to: [22, 33, 44, 55],"
-            + " numbers3=was removed: [3, 4, 5], numbers4=was added: [4, 5, 6],"
-            + " obj1=was added: {nestedKey=value, isNested=true},"
-            + " setting1=was changed from: Some value to: Another value,"
-            + " setting2=was changed from: 200 to: 300,"
-            + " setting3=was changed from: true to: none}";
 
     @Test
     void testStylishDifferRelativePathJSON() throws Exception {
@@ -130,12 +123,20 @@ public class DifferTest {
 
     @Test
     void testJsonDifferRelativePathJSON() throws Exception {
-        assertEquals(expectedJson, Differ.generate(file1JSON, file2JSON, "json"));
+        ObjectMapper testMapper = new ObjectMapper();
+        String expectedJson = testMapper.readValue(new File(fileResultJsonWthAbsolutePath), new TypeReference<>() {
+        }).toString();
+        String actual = Differ.generate(file1WthAbsolutePathJSON, file2WthAbsolutePathJSON, "json").toString();
+        assertEquals(expectedJson, actual);
     }
 
     @Test
     void testJsonDifferAbsolutePathJSON() throws Exception {
-        assertEquals(expectedJson, Differ.generate(file1WthAbsolutePathJSON, file2WthAbsolutePathJSON, "json"));
+        ObjectMapper testMapper = new ObjectMapper();
+        String expectedJson = testMapper.readValue(new File(fileResultJsonWthAbsolutePath), new TypeReference<>() {
+        }).toString();
+        String actual = Differ.generate(file1WthAbsolutePathJSON, file2WthAbsolutePathJSON, "json").toString();
+        assertEquals(expectedJson, actual);
     }
 
 
