@@ -1,23 +1,23 @@
 package hexlet.code.formatters;
 
-import java.util.Map;
 
 public class StylishFormatter {
-    public static String stylishFormat(Map<String, Object> data1, Map<String, Object> data2) {
+    public static String stylishFormat(String[][] resultArr) {
         StringBuilder result = new StringBuilder("{\n");
 
-        data1.forEach((key, value) -> {
-            if (data2.containsKey(key) && data2.get(key).toString().equals(value.toString())) {
-                result.append("    " + key + ": " + value.toString() + "\n");
-            } else if (data2.containsKey(key) && !data2.get(key).toString().equals(value.toString())) {
-                result.append("  - " + key + ": " + value.toString() + "\n");
-                result.append("  + " + key + ": " + data2.get(key).toString() + "\n");
-            } else if (key.endsWith(":")) {
-                result.append("  + " + key + " " + value.toString() + "\n");
+        for (int i = 0; i < resultArr.length; i++) {
+            if (resultArr[i][0].startsWith("changed")) {
+                result.append("  - " + resultArr[i][0].substring(8) + ": " + resultArr[i][1] + "\n");
+                result.append("  + " + resultArr[i][0].substring(8) + ": " + resultArr[i][2] + "\n");
+            } else if (resultArr[i][0].startsWith("added")) {
+                result.append("  + " + resultArr[i][0].substring(6) + ": " + resultArr[i][2] + "\n");
+            } else if (resultArr[i][0].startsWith("removed")) {
+                result.append("  - " + resultArr[i][0].substring(8) + ": " + resultArr[i][1] + "\n");
             } else {
-                result.append("  - " + key + ": " + value.toString() + "\n");
+                result.append("    " + resultArr[i][0] + ": " + resultArr[i][1] + "\n");
             }
-        });
+        }
+
         result.append("}");
 
         return result.toString();

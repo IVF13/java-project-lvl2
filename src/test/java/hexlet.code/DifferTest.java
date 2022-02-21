@@ -13,6 +13,7 @@ public class DifferTest {
     private String file2JSON = "src/test/resources/file2.json";
     private String file1YAML = "src/test/resources/file1.yml";
     private String file2YAML = "src/test/resources/file2.yml";
+    private String emptyFileJSON = "src/test/resources/emptyFile.json";
     private String fileResultJson = "src/test/resources/resultFile.json";
     private String file1WthAbsolutePathJSON = new File(file1JSON).getAbsolutePath();
     private String file2WthAbsolutePathJSON = new File(file2JSON).getAbsolutePath();
@@ -147,17 +148,61 @@ public class DifferTest {
     }
 
     @Test
-    void testSameFiles() throws Exception {
-        String identical = "You are trying to compare identical files.";
-        assertEquals(identical, Differ.generate(file1JSON, file1JSON, "stylish"));
-        assertEquals(identical, Differ.generate(file1JSON, file1JSON, "plain"));
+    void testStylishSameFilesDifferRelativePathJSON() throws Exception {
+        String expected = "{\n"
+                + "    chars1: [a, b, c]\n"
+                + "    chars2: [d, e, f]\n"
+                + "    checked: false\n"
+                + "    default: null\n"
+                + "    id: 45\n"
+                + "    key1: value1\n"
+                + "    numbers1: [1, 2, 3, 4]\n"
+                + "    numbers2: [2, 3, 4, 5]\n"
+                + "    numbers3: [3, 4, 5]\n"
+                + "    setting1: Some value\n"
+                + "    setting2: 200\n"
+                + "    setting3: true\n"
+                + "}";
+        assertEquals(expected, Differ.generate(file1JSON, file1JSON, "stylish"));
     }
 
     @Test
-    void testDifferEmptyFile() throws Exception {
-        String emptyFile = "src/test/resources/emptyfile1.json";
-        assertEquals("One of the files, or both of them, are empty", Differ.generate(emptyFile, file2JSON, "stylish"));
+    void testStylishEmptyFileDifferRelativePathJSON() throws Exception {
+        String expected = "{\n"
+                + "  - chars1: [a, b, c]\n"
+                + "  - chars2: [d, e, f]\n"
+                + "  - checked: false\n"
+                + "  - default: null\n"
+                + "  - id: 45\n"
+                + "  - key1: value1\n"
+                + "  - numbers1: [1, 2, 3, 4]\n"
+                + "  - numbers2: [2, 3, 4, 5]\n"
+                + "  - numbers3: [3, 4, 5]\n"
+                + "  - setting1: Some value\n"
+                + "  - setting2: 200\n"
+                + "  - setting3: true\n"
+                + "}";
+
+        assertEquals(expected, Differ.generate(file1JSON, emptyFileJSON, "stylish"));
     }
+
+    @Test
+    void testPlainEmptyFileDifferJSON() throws Exception {
+        String expected = "Property 'chars1' was removed\n"
+                + "Property 'chars2' was removed\n"
+                + "Property 'checked' was removed\n"
+                + "Property 'default' was removed\n"
+                + "Property 'id' was removed\n"
+                + "Property 'key1' was removed\n"
+                + "Property 'numbers1' was removed\n"
+                + "Property 'numbers2' was removed\n"
+                + "Property 'numbers3' was removed\n"
+                + "Property 'setting1' was removed\n"
+                + "Property 'setting2' was removed\n"
+                + "Property 'setting3' was removed";
+        assertEquals(expected, Differ.generate(file1JSON, emptyFileJSON, "plain"));
+    }
+
 
 }
 
