@@ -12,6 +12,6 @@ public class JsonFormatter {
         objectMapper.writeValue(new File("src/test/resources/resultFile.json"), resultArr);
         System.out.println("File was successfully generated.");
         return objectMapper.readValue(new File("src/test/resources/resultFile.json"), new TypeReference<>() {
-        });
+        }).toString();
     }
 }
