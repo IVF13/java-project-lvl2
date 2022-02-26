@@ -9,17 +9,17 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 
 public class DifferTest {
-    private String file1JSON = "src/test/resources/file1.json";
-    private String file2JSON = "src/test/resources/file2.json";
-    private String file1YAML = "src/test/resources/file1.yml";
-    private String file2YAML = "src/test/resources/file2.yml";
-    private String emptyFileJSON = "src/test/resources/emptyFile.json";
-    private String fileResultJson = "src/test/resources/resultFile.json";
-    private String file1WthAbsolutePathJSON = new File(file1JSON).getAbsolutePath();
-    private String file2WthAbsolutePathJSON = new File(file2JSON).getAbsolutePath();
-    private String file1WthAbsolutePathYAML = new File(file1YAML).getAbsolutePath();
-    private String file2WthAbsolutePathYAML = new File(file2YAML).getAbsolutePath();
-    private String fileResultJsonWthAbsolutePath = new File(fileResultJson).getAbsolutePath();
+    private File file1JSON = new File("src/test/resources/file1.json");
+    private File file2JSON = new File("src/test/resources/file2.json");
+    private File file1YAML = new File("src/test/resources/file1.yml");
+    private File file2YAML = new File("src/test/resources/file2.yml");
+    private File emptyFileJSON = new File("src/test/resources/emptyFile.json");
+    private File fileResultJson = new File("src/test/resources/resultFile.json");
+    private File file1WthAbsolutePathJSON = new File(file1JSON.getAbsolutePath());
+    private File file2WthAbsolutePathJSON = new File(file2JSON.getAbsolutePath());
+    private File file1WthAbsolutePathYAML = new File(file1YAML.getAbsolutePath());
+    private File file2WthAbsolutePathYAML = new File(file2YAML.getAbsolutePath());
+    private File fileResultJsonWthAbsolutePath = new File(fileResultJson.getAbsolutePath());
 
     private String expectedStylish = "{\n"
             + "    chars1: [a, b, c]\n"
@@ -125,18 +125,18 @@ public class DifferTest {
     @Test
     void testJsonDifferRelativePathJSON() throws Exception {
         ObjectMapper testMapper = new ObjectMapper();
-        String expectedJson = testMapper.readValue(new File(fileResultJsonWthAbsolutePath), new TypeReference<>() {
+        String expectedJson = testMapper.readValue(fileResultJsonWthAbsolutePath, new TypeReference<>() {
         }).toString();
-        String actual = Differ.generate(file1WthAbsolutePathJSON, file2WthAbsolutePathJSON, "json").toString();
+        String actual = Differ.generate(file1WthAbsolutePathJSON, file2WthAbsolutePathJSON, "json");
         assertEquals(expectedJson, actual);
     }
 
     @Test
     void testJsonDifferAbsolutePathJSON() throws Exception {
         ObjectMapper testMapper = new ObjectMapper();
-        String expectedJson = testMapper.readValue(new File(fileResultJsonWthAbsolutePath), new TypeReference<>() {
+        String expectedJson = testMapper.readValue(fileResultJsonWthAbsolutePath, new TypeReference<>() {
         }).toString();
-        String actual = Differ.generate(file1WthAbsolutePathJSON, file2WthAbsolutePathJSON, "json").toString();
+        String actual = Differ.generate(file1WthAbsolutePathJSON, file2WthAbsolutePathJSON, "json");
         assertEquals(expectedJson, actual);
     }
 
