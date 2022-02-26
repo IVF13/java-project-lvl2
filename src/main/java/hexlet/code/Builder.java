@@ -1,11 +1,13 @@
 package hexlet.code;
 
-import java.util.LinkedHashMap;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.TreeMap;
+import java.util.ArrayList;
 
 public class Builder {
-    public static Map<String, Object> toBuildSortedMergedMap(Map<String, Object> data1, Map<String, Object> data2) {
+    public static TreeMap<String, List> toBuildListOfDifferences(Map<String, Object> data1, Map<String, Object> data2) {
 
         data2.forEach((key, value) -> {
             if (value == null) {
@@ -17,52 +19,39 @@ public class Builder {
             }
         });
 
-        Map<String, Object> sortedMergedMap = data1.entrySet().stream()
-                .sorted(Map.Entry.comparingByKey())
-                .peek(x -> {
-                    if (x.getValue() == null) {
-                        data1.put(x.getKey(), "null");
-                    }
-                })
-                .collect(Collectors
-                        .toMap(Map.Entry::getKey,
-                                Map.Entry::getValue,
-                                (e1, e2) -> e1,
-                                LinkedHashMap::new));
+        data1.forEach((key, value) -> {
+            if (value == null) {
+                data1.put(key, "null");
+            }
+        });
 
-        data1.clear();
+        TreeMap<String, List> internalRepresentationOfDifferences = new TreeMap<>();
+        List<HashMap<String, Object>> listOfValuesWthNoChanges = new ArrayList<>();
+        List<HashMap<String, Object>> listOfValuesWthChanges = new ArrayList<>();
+        List<HashMap<String, Object>> listOfAddedValues = new ArrayList<>();
+        List<HashMap<String, Object>> listOfRemovedValues = new ArrayList<>();
 
-
-        return sortedMergedMap;
-    }
-
-    public static String[][] toBuildListOfDifferences(Map<String, Object> sortedMergedMap, Map<String, Object> data2) {
-        String[][] resultArr = new String[sortedMergedMap.size()][3];
-        int i = 0;
-
-        for (Map.Entry<String, Object> entry : sortedMergedMap.entrySet()) {
+        for (Map.Entry<String, Object> entry : data1.entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
             if (data2.containsKey(key) && data2.get(key).toString().equals(value.toString())) {
-                resultArr[i][0] = key;
-                resultArr[i][1] = value.toString();
-                resultArr[i][2] = data2.get(key).toString();
+                listOfValuesWthNoChanges.add(new HashMap<>(Map.of(key, value)));
             } else if (data2.containsKey(key) && !data2.get(key).toString().equals(value.toString())) {
-                resultArr[i][0] = "changed " + key;
-                resultArr[i][1] = value.toString();
-                resultArr[i][2] = data2.get(key).toString();
+                listOfValuesWthChanges.add(new HashMap<>(Map.of(key, value)));
+                listOfValuesWthChanges.add(new HashMap<>(Map.of(key, data2.get(key))));
             } else if (key.endsWith(":")) {
-                resultArr[i][0] = "added " + key.substring(0, key.length() - 1);
-                resultArr[i][1] = "";
-                resultArr[i][2] = value.toString();
+                listOfAddedValues.add(new HashMap<>(Map.of(key.substring(0, key.length() - 1), value)));
             } else {
-                resultArr[i][0] = "removed " + key;
-                resultArr[i][1] = value.toString();
-                resultArr[i][2] = "";
+                listOfRemovedValues.add(new HashMap<>(Map.of(key, value)));
             }
-            i++;
+
         }
 
-        return resultArr;
+        internalRepresentationOfDifferences.put("changed", listOfValuesWthChanges);
+        internalRepresentationOfDifferences.put("withoutChanges", listOfValuesWthNoChanges);
+        internalRepresentationOfDifferences.put("added", listOfAddedValues);
+        internalRepresentationOfDifferences.put("removed", listOfRemovedValues);
+
+        return internalRepresentationOfDifferences;
     }
 }
