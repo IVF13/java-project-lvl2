@@ -5,17 +5,19 @@ import hexlet.code.formatters.PlainFormatter;
 import hexlet.code.formatters.StylishFormatter;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.TreeMap;
 
 public class Formatter {
-    public static Object toChooseFormat(String format, String[][] resultArr)
+    public static String toChooseFormat(String format, TreeMap<String, List> internalRepresentationOfDifferences)
             throws IOException {
         switch (format) {
             case ("stylish"):
-                return StylishFormatter.stylishFormat(resultArr);
+                return StylishFormatter.stylishFormat(internalRepresentationOfDifferences);
             case ("plain"):
-                return PlainFormatter.plainFormat(resultArr);
+                return PlainFormatter.plainFormat(internalRepresentationOfDifferences);
             case ("json"):
-                return JsonFormatter.jsonFormat(resultArr);
+                return JsonFormatter.jsonFormat(internalRepresentationOfDifferences);
             default:
                 return "format is incorrect\n supported formats:\n - stylish\n - plain";
         }
