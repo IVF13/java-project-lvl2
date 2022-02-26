@@ -1,27 +1,32 @@
 package hexlet.code;
 
+import java.io.File;
+import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.Collections;
 
 public class Differ {
-    public static String generate(String filePath1, String filePath2, String format) throws Exception {
-        Map<String, Object> data1 = Parser.toParse(filePath1);
-        Map<String, Object> data2 = Parser.toParse(filePath2);
+    public static String generate(File file1, File file2, String format) throws Exception {
+        String dataType1 = file1.toString().substring(file1.toString().indexOf("."));
+        String dataType2 = file2.toString().substring(file1.toString().indexOf("."));
+        Map<String, Object> data1 = Parser.toParse(file1, dataType1);
+        Map<String, Object> data2 = Parser.toParse(file2, dataType2);
 
-        if (!isCollectionMapNull(data1) && !isCollectionMapNull(data2)) {
-            Map<String, Object> sortedMergedMap = Builder.toBuildSortedMergedMap(data1, data2);
-            String[][] resultArr = Builder.toBuildListOfDifferences(sortedMergedMap, data2);
-            return Formatter.toChooseFormat(format, resultArr).toString();
+        if (data1 == null) {
+            data1 = Collections.<String, Object>emptyMap();
+        }
+        if (data2 == null) {
+            data2 = Collections.<String, Object>emptyMap();
         }
 
-        return null;
+        TreeMap<String, List> internalRepresentationOfDifferences = Builder.toBuildListOfDifferences(data1, data2);
+        return Formatter.toChooseFormat(format, internalRepresentationOfDifferences);
+
     }
 
-    protected static boolean isCollectionMapNull(final Map<?, ?> m) {
-        return m == null;
-    }
-
-    public static Object generate(String filepath1, String filepath2) throws Exception {
-        return generate(filepath1, filepath2, "stylish");
+    public static Object generate(File file1, File file2) throws Exception {
+        return generate(file1, file2, "stylish");
     }
 
 }
