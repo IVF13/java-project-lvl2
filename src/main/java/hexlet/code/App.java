@@ -5,6 +5,7 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
+import java.io.File;
 import java.util.concurrent.Callable;
 
 
@@ -13,10 +14,10 @@ import java.util.concurrent.Callable;
 class App implements Callable<Integer> {
 
     @Parameters(index = "0", description = "path to first file")
-    private String file1;
+    private File file1;
 
     @Parameters(index = "1", description = "path to second file")
-    private String file2;
+    private File file2;
 
     @Option(names = {"-f", "--format"}, description = "The count (default: ${stylish})")
     private String format = "stylish";
