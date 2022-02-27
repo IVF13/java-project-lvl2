@@ -7,9 +7,11 @@ import java.util.TreeMap;
 import java.util.Collections;
 
 public class Differ {
-    public static String generate(File file1, File file2, String format) throws Exception {
-        String dataType1 = file1.toString().substring(file1.toString().indexOf("."));
-        String dataType2 = file2.toString().substring(file1.toString().indexOf("."));
+    public static String generate(String filePath1, String filePath2, String format) throws Exception {
+        String dataType1 = filePath1.substring(filePath1.indexOf("."));
+        String dataType2 = filePath2.substring(filePath2.indexOf("."));
+        File file1 = new File(filePath1);
+        File file2 = new File(filePath2);
         Map<String, Object> data1 = Parser.toParse(file1, dataType1);
         Map<String, Object> data2 = Parser.toParse(file2, dataType2);
 
@@ -25,8 +27,8 @@ public class Differ {
 
     }
 
-    public static Object generate(File file1, File file2) throws Exception {
-        return generate(file1, file2, "stylish");
+    public static Object generate(String filePath1, String filePath2) throws Exception {
+        return generate(filePath1, filePath2, "stylish");
     }
 
 }

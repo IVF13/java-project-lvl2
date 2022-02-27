@@ -5,7 +5,6 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
-import java.io.File;
 import java.util.concurrent.Callable;
 
 
@@ -14,17 +13,17 @@ import java.util.concurrent.Callable;
 class App implements Callable<Integer> {
 
     @Parameters(index = "0", description = "path to first file")
-    private File file1;
+    private String filePath1;
 
     @Parameters(index = "1", description = "path to second file")
-    private File file2;
+    private String filePath2;
 
     @Option(names = {"-f", "--format"}, description = "The count (default: ${stylish})")
     private String format = "stylish";
 
     @Override
     public Integer call() throws Exception {
-        System.out.println(Differ.generate(file1, file2, format));
+        System.out.println(Differ.generate(filePath1, filePath2, format));
         return 0;
     }
 
