@@ -11,6 +11,7 @@ public class StylishFormatter {
         String fieldName = "fieldName";
         String value1 = "value1";
         String value2 = "value2";
+        final int keyStartPosition = 3;
 
         List<StringBuilder> result = new ArrayList<>();
 
@@ -28,7 +29,7 @@ public class StylishFormatter {
 
         });
 
-        Collections.sort(result, Comparator.comparing(s -> s.substring(3)));
+        Collections.sort(result, Comparator.comparing(s -> s.substring(keyStartPosition)));
 
         result.add(0, new StringBuilder("{\n"));
         result.add(new StringBuilder("}"));

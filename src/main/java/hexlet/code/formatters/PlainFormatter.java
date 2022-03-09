@@ -11,6 +11,7 @@ public class PlainFormatter {
         String fieldName = "fieldName";
         String value1 = "value1";
         String value2 = "value2";
+        final int keyStartPosition = 3;
         List<StringBuilder> result = new ArrayList<>();
 
         internalRepresentationOfDifferences.forEach(x -> {
@@ -27,7 +28,7 @@ public class PlainFormatter {
             }
         });
 
-        Collections.sort(result, Comparator.comparing(s -> s.substring(3)));
+        Collections.sort(result, Comparator.comparing(s -> s.substring(keyStartPosition)));
 
         return result.toString().substring(1, result.toString().length() - 2).replaceAll("\n, ", "\n");
     }
