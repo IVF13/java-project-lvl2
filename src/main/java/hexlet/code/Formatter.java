@@ -3,13 +3,13 @@ package hexlet.code;
 import hexlet.code.formatters.JsonFormatter;
 import hexlet.code.formatters.PlainFormatter;
 import hexlet.code.formatters.StylishFormatter;
-
 import java.io.IOException;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Formatter {
-    public static String toChooseFormat(String format, TreeMap<String, List> internalRepresentationOfDifferences)
+    public static String
+        toChooseFormat(String format, ArrayList<HashMap<String, Object>> internalRepresentationOfDifferences)
             throws IOException {
         switch (format) {
             case ("stylish"):

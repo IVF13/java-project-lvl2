@@ -1,66 +1,36 @@
 package hexlet.code;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.io.File;
 
 public class DifferTest {
-    private String file1JSON = "src/test/resources/file1.json";
-    private String file2JSON = "src/test/resources/file2.json";
-    private String file1YAML = "src/test/resources/file1.yml";
-    private String file2YAML = "src/test/resources/file2.yml";
-    private String emptyFileJSON = "src/test/resources/emptyFile.json";
-    private String fileResultJson = "src/test/resources/resultFile.json";
-    private String file1WthAbsolutePathJSON = new File(file1JSON).getAbsolutePath();
-    private String file2WthAbsolutePathJSON = new File(file2JSON).getAbsolutePath();
-    private String file1WthAbsolutePathYAML = new File(file1YAML).getAbsolutePath();
-    private String file2WthAbsolutePathYAML = new File(file2YAML).getAbsolutePath();
-    private String fileResultJsonWthAbsolutePath = new File(fileResultJson).getAbsolutePath();
+    private static String expectedStylish;
+    private static String expectedPlain;
+    private final String file1JSON = "src/test/resources/file1.json";
+    private final String file2JSON = "src/test/resources/file2.json";
+    private final String file1YAML = "src/test/resources/file1.yml";
+    private final String file2YAML = "src/test/resources/file2.yml";
+    private final String emptyFileJSON = "src/test/resources/emptyFile.json";
+    private final String fileResultJson = "src/test/resources/expectedJsonFile.json";
+    private final String file1WthAbsolutePathJSON = new File(file1JSON).getAbsolutePath();
+    private final String file2WthAbsolutePathJSON = new File(file2JSON).getAbsolutePath();
+    private final String file1WthAbsolutePathYAML = new File(file1YAML).getAbsolutePath();
+    private final String file2WthAbsolutePathYAML = new File(file2YAML).getAbsolutePath();
+    private final String fileResultJsonWthAbsolutePath = new File(fileResultJson).getAbsolutePath();
 
-    private String expectedStylish = "{\n"
-            + "    chars1: [a, b, c]\n"
-            + "  - chars2: [d, e, f]\n"
-            + "  + chars2: false\n"
-            + "  - checked: false\n"
-            + "  + checked: true\n"
-            + "  - default: null\n"
-            + "  + default: [value1, value2]\n"
-            + "  - id: 45\n"
-            + "  + id: null\n"
-            + "  - key1: value1\n"
-            + "  + key2: value2\n"
-            + "    numbers1: [1, 2, 3, 4]\n"
-            + "  - numbers2: [2, 3, 4, 5]\n"
-            + "  + numbers2: [22, 33, 44, 55]\n"
-            + "  - numbers3: [3, 4, 5]\n"
-            + "  + numbers4: [4, 5, 6]\n"
-            + "  + obj1: {nestedKey=value, isNested=true}\n"
-            + "  - setting1: Some value\n"
-            + "  + setting1: Another value\n"
-            + "  - setting2: 200\n"
-            + "  + setting2: 300\n"
-            + "  - setting3: true\n"
-            + "  + setting3: none\n"
-            + "}";
-
-    private String expectedPlain = "Property 'chars2' was updated. From [complex value] to false\n"
-            + "Property 'checked' was updated. From false to true\n"
-            + "Property 'default' was updated. From null to [complex value]\n"
-            + "Property 'id' was updated. From 45 to null\n"
-            + "Property 'key1' was removed\n"
-            + "Property 'key2' was added with value: 'value2'\n"
-            + "Property 'numbers2' was updated. From [complex value] to [complex value]\n"
-            + "Property 'numbers3' was removed\n"
-            + "Property 'numbers4' was added with value: [complex value]\n"
-            + "Property 'obj1' was added with value: [complex value]\n"
-            + "Property 'setting1' was updated. From 'Some value' to 'Another value'\n"
-            + "Property 'setting2' was updated. From 200 to 300\n"
-            + "Property 'setting3' was updated. From true to 'none'";
-
+    @BeforeAll
+    static void readFiles() throws IOException {
+        Path expectedStylishFile = Path.of("src/test/resources/expectedStylishFile.rtf");
+        Path expectedPlainFile = Path.of("src/test/resources/expectedPlainFile.rtf");
+        expectedStylish = Files.readString(expectedStylishFile);
+        expectedPlain = Files.readString(expectedPlainFile);
+    }
 
     @Test
     void testStylishDifferRelativePathJSON() throws Exception {
@@ -125,8 +95,7 @@ public class DifferTest {
     @Test
     void testJsonDifferRelativePathJSON() throws Exception {
         ObjectMapper testMapper = new ObjectMapper();
-        String expectedJson = testMapper.readValue(new File(fileResultJson), new TypeReference<>() {
-        }).toString();
+        String expectedJson = Files.readString(Path.of(fileResultJsonWthAbsolutePath));
         String actual = Differ.generate(file1WthAbsolutePathJSON, file2WthAbsolutePathJSON, "json");
         assertEquals(expectedJson, actual);
     }
@@ -134,8 +103,7 @@ public class DifferTest {
     @Test
     void testJsonDifferAbsolutePathJSON() throws Exception {
         ObjectMapper testMapper = new ObjectMapper();
-        String expectedJson = testMapper.readValue(new File(fileResultJsonWthAbsolutePath), new TypeReference<>() {
-        }).toString();
+        String expectedJson = Files.readString(Path.of(fileResultJsonWthAbsolutePath));
         String actual = Differ.generate(file1WthAbsolutePathJSON, file2WthAbsolutePathJSON, "json");
         assertEquals(expectedJson, actual);
     }
@@ -149,57 +117,22 @@ public class DifferTest {
 
     @Test
     void testStylishSameFilesDifferRelativePathJSON() throws Exception {
-        String expected = "{\n"
-                + "    chars1: [a, b, c]\n"
-                + "    chars2: [d, e, f]\n"
-                + "    checked: false\n"
-                + "    default: null\n"
-                + "    id: 45\n"
-                + "    key1: value1\n"
-                + "    numbers1: [1, 2, 3, 4]\n"
-                + "    numbers2: [2, 3, 4, 5]\n"
-                + "    numbers3: [3, 4, 5]\n"
-                + "    setting1: Some value\n"
-                + "    setting2: 200\n"
-                + "    setting3: true\n"
-                + "}";
+        Path stylishSameFilesFile = Path.of("src/test/resources/expectedStylishSameFilesFile.rtf");
+        String expected = Files.readString(stylishSameFilesFile);
         assertEquals(expected, Differ.generate(file1JSON, file1JSON, "stylish"));
     }
 
     @Test
     void testStylishEmptyFileDifferRelativePathJSON() throws Exception {
-        String expected = "{\n"
-                + "  - chars1: [a, b, c]\n"
-                + "  - chars2: [d, e, f]\n"
-                + "  - checked: false\n"
-                + "  - default: null\n"
-                + "  - id: 45\n"
-                + "  - key1: value1\n"
-                + "  - numbers1: [1, 2, 3, 4]\n"
-                + "  - numbers2: [2, 3, 4, 5]\n"
-                + "  - numbers3: [3, 4, 5]\n"
-                + "  - setting1: Some value\n"
-                + "  - setting2: 200\n"
-                + "  - setting3: true\n"
-                + "}";
-
+        Path stylishEmptyFile = Path.of("src/test/resources/expectedStylishEmptyFile.rtf");
+        String expected = Files.readString(stylishEmptyFile);
         assertEquals(expected, Differ.generate(file1JSON, emptyFileJSON, "stylish"));
     }
 
     @Test
     void testPlainEmptyFileDifferJSON() throws Exception {
-        String expected = "Property 'chars1' was removed\n"
-                + "Property 'chars2' was removed\n"
-                + "Property 'checked' was removed\n"
-                + "Property 'default' was removed\n"
-                + "Property 'id' was removed\n"
-                + "Property 'key1' was removed\n"
-                + "Property 'numbers1' was removed\n"
-                + "Property 'numbers2' was removed\n"
-                + "Property 'numbers3' was removed\n"
-                + "Property 'setting1' was removed\n"
-                + "Property 'setting2' was removed\n"
-                + "Property 'setting3' was removed";
+        Path plainEmptyFile = Path.of("src/test/resources/expectedPlainEmptyFile.rtf");
+        String expected = Files.readString(plainEmptyFile);
         assertEquals(expected, Differ.generate(file1JSON, emptyFileJSON, "plain"));
     }
 
