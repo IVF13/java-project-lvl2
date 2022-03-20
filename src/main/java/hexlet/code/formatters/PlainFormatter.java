@@ -12,7 +12,6 @@ public class PlainFormatter {
         List<String> result = new ArrayList<>();
 
         internalRepresentationOfDifferences.forEach(x -> {
-
             if (x.containsValue("changed")) {
                 result.add("Property '" + x.get(fieldName) + "' was updated. From "
                         + toCheckComplexValue(x.get(value1).toString()) + " to "

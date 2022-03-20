@@ -15,7 +15,7 @@ public class Builder {
         data2.forEach((key, value) -> keys.add(key));
         data1.forEach((key, value) -> keys.add(key));
 
-        for (String key : keys) {
+        keys.forEach(key -> {
             Object value1;
             Object value2;
 
@@ -47,7 +47,7 @@ public class Builder {
                         "value1", value1, "value2", "", "status", "removed")));
             }
 
-        }
+        });
 
         internalRepresentationOfDifferences.sort(Comparator.comparing(s -> s.get("fieldName").toString()));
 
