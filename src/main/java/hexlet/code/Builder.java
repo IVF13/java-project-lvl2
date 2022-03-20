@@ -1,52 +1,60 @@
 package hexlet.code;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.ArrayList;
+import java.util.TreeSet;
 
 public class Builder {
     public static ArrayList<HashMap<String, Object>>
-        toBuildListOfDifferences(Map<String, Object> data1, Map<String, Object> data2) {
+    toBuildListOfDifferences(Map<String, Object> data1, Map<String, Object> data2) {
+        TreeSet<String> keys = new TreeSet<>();
 
-        data2.forEach((key, value) -> {
-            if (value == null) {
-                data2.put(key, "null");
-            }
-            if (!data1.containsKey(key)) {
-                assert value != null;
-                data1.put(key + ":", value.toString());
-            }
-        });
+        data2.forEach((key, value) -> keys.add(key));
 
-        data1.forEach((key, value) -> {
-            if (value == null) {
-                data1.put(key, "null");
-            }
-        });
+        data1.forEach((key, value) -> keys.add(key));
 
         ArrayList<HashMap<String, Object>> internalRepresentationOfDifferences = new ArrayList<>();
 
-        for (Map.Entry<String, Object> entry : data1.entrySet()) {
-            String key = entry.getKey();
-            Object value = entry.getValue();
-            if (data2.containsKey(key) && data2.get(key).toString().equals(value.toString())) {
+        for (String key : keys) {
+            Object value1;
+            Object value2;
+
+            if (data1.get(key) == null) {
+                value1 = "null";
+            } else {
+                value1 = data1.get(key);
+            }
+
+            if (data2.get(key) == null) {
+                value2 = "null";
+            } else {
+                value2 = data2.get(key);
+            }
+
+            if (data2.containsKey(key) && data1.containsKey(key)) {
+                if (value2.toString().equals(value1.toString())) {
+                    internalRepresentationOfDifferences.add(new HashMap<>(Map.of("fieldName", key,
+                            "value1", value1, "value2", value2, "status", "not changed")));
+                } else {
+                    internalRepresentationOfDifferences.add(new HashMap<>(Map.of("fieldName", key,
+                            "value1", value1, "value2", value2, "status", "changed")));
+                }
+            } else if (data2.containsKey(key) && !data1.containsKey(key)) {
                 internalRepresentationOfDifferences.add(new HashMap<>(Map.of("fieldName", key,
-                        "value1", value, "value2", value, "status", "not changed")));
-            } else if (data2.containsKey(key) && !data2.get(key).toString().equals(value.toString())) {
-                internalRepresentationOfDifferences.add(new HashMap<>(Map.of("fieldName", key,
-                        "value1", value, "value2", data2.get(key), "status", "changed")));
-            } else if (key.endsWith(":")) {
-                internalRepresentationOfDifferences.add(new HashMap<>(Map.of("fieldName",
-                        key.substring(0, key.length() - 1),
-                        "value1", "", "value2", value, "status", "added")));
+                        "value1", "", "value2", value2, "status", "added")));
             } else {
                 internalRepresentationOfDifferences.add(new HashMap<>(Map.of("fieldName", key,
-                        "value1", value, "value2", "", "status", "removed")));
+                        "value1", value1, "value2", "", "status", "removed")));
             }
 
         }
+
+        internalRepresentationOfDifferences.sort(Comparator.comparing(s -> s.get("fieldName").toString()));
 
         return internalRepresentationOfDifferences;
 
     }
 }
+

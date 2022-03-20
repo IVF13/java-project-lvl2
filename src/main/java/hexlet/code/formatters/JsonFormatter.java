@@ -6,15 +6,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-
 public class JsonFormatter {
     public static String jsonFormat(ArrayList<HashMap<String, Object>> internalRepresentationOfDifferences)
-        throws IOException {
-        StringBuilder json = new StringBuilder();
+            throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
 
-        json.append(objectMapper.writeValueAsString(internalRepresentationOfDifferences));
-
-        return json.toString();
+        return objectMapper.writeValueAsString(internalRepresentationOfDifferences);
     }
 }
