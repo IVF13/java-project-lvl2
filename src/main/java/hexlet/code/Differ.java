@@ -17,10 +17,10 @@ public class Differ {
         Map<String, Object> data2 = Parser.toParse(secondFileContent, dataType2);
 
         if (data1 == null) {
-            data1 = Collections.<String, Object>emptyMap();
+            data1 = Collections.emptyMap();
         }
         if (data2 == null) {
-            data2 = Collections.<String, Object>emptyMap();
+            data2 = Collections.emptyMap();
         }
 
         ArrayList<HashMap<String, Object>> internalRepresentationOfDifferences = Builder
