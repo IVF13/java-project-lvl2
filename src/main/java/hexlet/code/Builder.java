@@ -15,11 +15,9 @@ public class Builder {
         keys.addAll(data2.keySet());
 
         keys.forEach(key -> {
-            Object value1;
-            Object value2;
 
-            value1 = Utils.toGetValueFromMap(data1, key);
-            value2 = Utils.toGetValueFromMap(data2, key);
+            Object value1 = Utils.toGetValueFromMap(data1, key);
+            Object value2 = Utils.toGetValueFromMap(data2, key);
 
             if (data2.containsKey(key) && data1.containsKey(key)) {
                 if (value2.toString().equals(value1.toString())) {
