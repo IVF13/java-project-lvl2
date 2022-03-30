@@ -3,7 +3,6 @@ package hexlet.code;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
-import java.util.Collections;
 import java.util.Map;
 import java.util.ArrayList;
 
@@ -16,12 +15,6 @@ public class Differ {
         Map<String, Object> data1 = Parser.toParse(firstFileContent, dataType1);
         Map<String, Object> data2 = Parser.toParse(secondFileContent, dataType2);
 
-        if (data1 == null) {
-            data1 = Collections.emptyMap();
-        }
-        if (data2 == null) {
-            data2 = Collections.emptyMap();
-        }
 
         ArrayList<HashMap<String, Object>> internalRepresentationOfDifferences = Builder
                 .toBuildListOfDifferences(data1, data2);
