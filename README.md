@@ -21,7 +21,7 @@ output formats: stylish, plain, json. This utility can also be used as a library
 ## An example of the program's operation as library:
 
 ```Java
-//imports
+//Imports:
 import hexlet.code.Differ;
 import hexlet.code.Builder;
 import hexlet.code.Parser;
