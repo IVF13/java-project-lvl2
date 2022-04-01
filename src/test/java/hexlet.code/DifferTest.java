@@ -111,7 +111,7 @@ public class DifferTest {
 
     @Test
     void testIncorrectFormat() throws Exception {
-        String incorrect = "format is incorrect\n supported formats:\n - stylish\n - plain";
+        String incorrect = "format is incorrect\n supported formats:\n - stylish\n - plain\n - json";
         assertEquals(incorrect, Differ.generate(file1JSON, file2JSON, "HTML"));
     }
 
