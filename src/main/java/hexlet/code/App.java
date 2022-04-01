@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -24,6 +25,10 @@ class App implements Callable<Integer> {
     public Integer call() throws Exception {
         System.out.println(Differ.generate(filePath1, filePath2, format));
         return 0;
+    }
+
+    public static void main(String... args) {
+        new CommandLine(new App()).execute(args);
     }
 }
 
