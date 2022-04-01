@@ -19,7 +19,7 @@ class App implements Callable<Integer> {
     private String filePath2;
 
     @Option(names = {"-f", "--format"}, description = "The count (default: ${stylish})")
-    private final String format = "stylish";
+    private String format = "stylish";
 
     @Override
     public Integer call() throws Exception {
